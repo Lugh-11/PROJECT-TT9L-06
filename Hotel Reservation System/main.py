@@ -6,7 +6,7 @@ import get_info
 import customer_info
 import os
 
-
+#CHANGING HOTEL NAME
 class Hotel:
     def __init__(self, root):
         self.root = root
