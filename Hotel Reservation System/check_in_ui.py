@@ -154,7 +154,7 @@ class CheckIN:
             self.days_entry.delete(0, END)
             self.days_entry.insert(0, "")
 
-        # create submit button
+        # Fix uncenter button
         self.submit_button = Button(self.checkbox, text="SUBMIT", font=('', 15), bg="#15d3ba", relief=RIDGE, height=2,
                                     width=15,
                                     fg="black", anchor="center", command=submit_info)
