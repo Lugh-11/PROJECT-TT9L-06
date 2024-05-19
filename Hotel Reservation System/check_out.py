@@ -10,24 +10,27 @@ class CheckOut:
         self.root.title("CHECK OUT")
         self.root.geometry(
             "{0}x{1}+0+0".format(self.root.winfo_screenwidth() - pad, self.root.winfo_screenheight() - pad))
+        
+        # set background color
+        self.root.config(bg="#c9c1a7")
 
         # create mainframe to add message
-        top = Frame(self.root)
+        top = Frame(self.root, bg="#c9c1a7")
         top.pack(side="top")
 
-        bottom = Frame(self.root)
+        bottom = Frame(self.root, bg="#c9c1a7")
         bottom.pack(side="top")
 
-        info_frame = Frame(self.root)
+        info_frame = Frame(self.root, bg="#c9c1a7")
         info_frame.pack(side="top")
 
-        #changed font styles
-        self.label = Label(top, font=('Times', 50, 'bold'), text="CHECK OUT", fg="#ffe9a1", anchor="center")
+        # changed font styles
+        self.label = Label(top, font=('Times', 50, 'bold'), text="CHECK OUT", fg="#ffe9a1", anchor="center", bg="#c9c1a7")
         self.label.grid(row=0, column=3, padx=10, pady=10)
 
         # room no label
         self.room_no_label = Label(bottom, font=('Times', 20, 'bold'), text="ENTER THE ROOM NUMBER :", fg="#15d3ba",
-                                   anchor="center")
+                                   anchor="center", bg="#c9c1a7")
         self.room_no_label.grid(row=2, column=2, padx=10, pady=10)
 
         # text enter field
@@ -84,3 +87,6 @@ def check_out_ui():
     root = Tk()
     application = CheckOut(root)
     root.mainloop()
+
+check_out_ui() 
+
