@@ -22,11 +22,11 @@ class CheckOut:
         info_frame.pack(side="top")
 
         # display message
-        self.label = Label(top, font=('arial', 50, 'bold'), text="CHECK OUT", fg="#15d3ba", anchor="center")
+        self.label = Label(top, font=('Times', 50, 'bold'), text="CHECK OUT", fg="#ffe9a1", anchor="center")
         self.label.grid(row=0, column=3, padx=10, pady=10)
 
         # room no label
-        self.room_no_label = Label(bottom, font=('arial', 20, 'bold'), text="ENTER THE ROOM NUMBER :", fg="#15d3ba",
+        self.room_no_label = Label(bottom, font=('Times', 20, 'bold'), text="ENTER THE ROOM NUMBER :", fg="#15d3ba",
                                    anchor="center")
         self.room_no_label.grid(row=2, column=2, padx=10, pady=10)
 
