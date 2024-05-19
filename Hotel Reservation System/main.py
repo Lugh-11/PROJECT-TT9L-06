@@ -15,7 +15,7 @@ class Hotel:
         self.root.geometry(
             "{0}x{1}+0+0".format(self.root.winfo_screenwidth() - pad, self.root.winfo_screenheight() - pad))
 
-        # set background color/font styles
+        # changed background color
         self.root.configure(bg="#c9c1a7")
 
         # create mainframe to add message
