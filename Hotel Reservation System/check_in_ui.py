@@ -16,7 +16,7 @@ class CheckIN:
         self.root.geometry(
             "{0}x{1}+0+0".format(self.root.winfo_screenwidth() - pad, self.root.winfo_screenheight() - pad))
 
-        # changed border color to brown
+        #changed border color to brown
         self.root.configure(borderwidth=3, highlightbackground="#948363", highlightcolor="#948363")
 
         self.root['bg'] = 'brown'
