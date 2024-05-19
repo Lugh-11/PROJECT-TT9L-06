@@ -21,7 +21,7 @@ class CheckOut:
         info_frame = Frame(self.root)
         info_frame.pack(side="top")
 
-        # display message
+        #changed font styles
         self.label = Label(top, font=('Times', 50, 'bold'), text="CHECK OUT", fg="#ffe9a1", anchor="center")
         self.label.grid(row=0, column=3, padx=10, pady=10)
 
