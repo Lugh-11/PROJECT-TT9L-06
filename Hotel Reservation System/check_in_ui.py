@@ -38,7 +38,7 @@ class CheckIN:
     def create_widgets(self):
         # Main frame to hold all widgets
         main_frame = tk.Frame(self.root, bg="#c9c1a7")
-        main_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
+        main_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20, anchor='center')
 
         # Room Number
         self.room_number = random.randint(101, 200)
@@ -58,13 +58,13 @@ class CheckIN:
         self.address_entry.grid(row=2, column=1, pady=5, sticky="w")
 
         # Mobile
-        self.mobile_label = tk.Label(main_frame, text="ENTER YOUR MOBILE NUMBER:", font=('Times', 12, 'bold'), bg="#c9c1a7", fg="#725700")
+        self.mobile_label = tk.Label(main_frame, text="MOBILE NUMBER:", font=('Times', 12, 'bold'), bg="#c9c1a7", fg="#725700")
         self.mobile_label.grid(row=3, column=0, pady=5, sticky="e")
         self.mobile_entry = tk.Entry(main_frame, font=('Times', 12))
         self.mobile_entry.grid(row=3, column=1, pady=5, sticky="w")
 
         # Days
-        self.days_label = tk.Label(main_frame, text="ENTER NUMBER OF DAYS TO STAY:", font=('Times', 12, 'bold'), bg="#c9c1a7", fg="#725700")
+        self.days_label = tk.Label(main_frame, text="NUMBER OF DAYS:", font=('Times', 12, 'bold'), bg="#c9c1a7", fg="#725700")
         self.days_label.grid(row=4, column=0, pady=5, sticky="e")
         self.days_entry = tk.Entry(main_frame, font=('Times', 12))
         self.days_entry.grid(row=4, column=1, pady=5, sticky="w")
@@ -163,4 +163,3 @@ def check_in_ui_fun():
     main_window.title("Main Page")
     application = CheckIN(root, main_window)
     root.mainloop()
-
