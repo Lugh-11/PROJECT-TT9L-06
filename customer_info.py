@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter.ttk import Separator
+from tkinter import messagebox
 import tkinter as tk
 import sqlite3
 import main
@@ -12,14 +12,12 @@ class CustomerInfo:
         self.root.geometry("{0}x{1}+0+0".format(self.root.winfo_screenwidth() - pad, self.root.winfo_screenheight() - pad))
         self.root.configure(bg="#c9c1a7")  # Dark mode background color
 
-
         # Colors
         header_bg = "#725700"
         content_bg = "#c9c1a7"
-        label_bg = "#000000"
+        old_money_bg = "#6A4D23"  # Old money style color
         button_bg = "#725700"
         button_fg = "#ffe9a1"
-        old_money_bg = "#6A4D23"  # Old money style color
 
         # Create main frames
         top = Frame(self.root, bg=header_bg)
@@ -74,22 +72,26 @@ class CustomerInfo:
 
     def display_info(self):
         conn = sqlite3.connect('Hotel.db')
-        with conn:
-            cursor = conn.cursor()
-            cursor.execute('CREATE TABLE IF NOT EXISTS Hotel (Fullname TEXT, Address TEXT, mobile_number TEXT, number_days TEXT, room_number INTEGER)')
-            conn.commit()
+        try:
+            with conn:
+                cursor = conn.cursor()
+                cursor.execute('CREATE TABLE IF NOT EXISTS Hotel (Fullname TEXT, Address TEXT, mobile_number TEXT, number_days TEXT, room_number INTEGER)')
+                conn.commit()
 
-            cursor.execute("SELECT Fullname FROM Hotel")
-            names = cursor.fetchall()
-            self.name_customer_entry.delete(1.0, tk.END)
-            for name in names:
-                self.name_customer_entry.insert(tk.INSERT, name[0] + '\n')
+                cursor.execute("SELECT Fullname FROM Hotel")
+                names = cursor.fetchall()
+                self.name_customer_entry.delete(1.0, tk.END)
+                for name in names:
+                    self.name_customer_entry.insert(tk.INSERT, name[0] + '\n')
 
-            cursor.execute("SELECT room_number FROM Hotel")
-            rooms = cursor.fetchall()
-            self.room_no_customer_entry.delete(1.0, tk.END)
-            for room in rooms:
-                self.room_no_customer_entry.insert(tk.INSERT, str(room[0]) + '\n')
+                cursor.execute("SELECT room_number FROM Hotel")
+                rooms = cursor.fetchall()
+                self.room_no_customer_entry.delete(1.0, tk.END)
+                for room in rooms:
+                    self.room_no_customer_entry.insert(tk.INSERT, str(room[0]) + '\n')
+
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
 
     def go_back(self):
         self.root.destroy()
@@ -98,7 +100,10 @@ class CustomerInfo:
 def customer_info_ui():
     root = tk.Tk()
     application = CustomerInfo(root)
-   
+    root.mainloop()
+
+
+
 
 
 

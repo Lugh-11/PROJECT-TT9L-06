@@ -19,7 +19,7 @@ class HotelAdmin:
 
         # Title label with border
         self.label = Label(self.main_frame, text="ADMIN 🛠", font=('Times', 50, 'bold'), fg="#725700", bg="#c9c1a7", bd=4, relief="groove")
-        self.label.pack(pady=20)
+        self.label.pack(pady=50)
 
         # Button styles
         self.button_style = ttk.Style()
@@ -28,24 +28,24 @@ class HotelAdmin:
         # Customer Information Button
         self.room_info_button = ttk.Button(self.main_frame, text="CUSTOMER INFORMATION", style='Admin.TButton',
                                            command=self.show_customer_info)
-        self.room_info_button.pack(pady=10)
+        self.room_info_button.pack(pady=30)
 
         # List of Customers Button
         self.get_info_button = ttk.Button(self.main_frame, text="LIST OF CUSTOMERS", style='Admin.TButton',
                                           command=self.show_customer_list)
-        self.get_info_button.pack(pady=10)
+        self.get_info_button.pack(pady=30)
 
         self.room_availability_button = ttk.Button(self.main_frame, text="ROOM AVAILABILITY", style='Admin.TButton',
                                                    command=self.show_room_availability)
-        self.room_availability_button.pack(pady=10)
+        self.room_availability_button.pack(pady=30)
 
         # Separator
         self.separator = ttk.Separator(self.main_frame, orient=HORIZONTAL)
-        self.separator.pack(fill=X, pady=20)
+        self.separator.pack(fill=X, pady=30)
 
         # Exit Button
         self.exit_button = ttk.Button(self.main_frame, text="EXIT", style='Admin.TButton', command=self.exit_app)
-        self.exit_button.pack(pady=10)
+        self.exit_button.pack(pady=30)
 
     def show_customer_info(self):
         get_info.get_info_ui() 
