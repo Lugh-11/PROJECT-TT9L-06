@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import messagebox
+from tkinter import messagebox 
 import tkinter as tk
 import sqlite3
 import main
@@ -23,11 +23,8 @@ class CustomerInfo:
         top = Frame(self.root, bg=header_bg)
         top.pack(side="top", fill="x")
 
-        left = Frame(self.root, bg=content_bg)
-        left.pack(side="left", fill="both", expand=True, padx=20, pady=20)
-
-        right = Frame(self.root, bg=content_bg)
-        right.pack(side="right", fill="both", expand=True, padx=20, pady=20)
+        middle = Frame(self.root, bg=content_bg)
+        middle.pack(fill="both", expand=True, padx=20, pady=20)
 
         bottom = Frame(self.root, bg=header_bg)
         bottom.pack(side="bottom", fill="x")
@@ -36,31 +33,34 @@ class CustomerInfo:
         self.label = Label(top, font=('Times', 40, 'bold'), text="CUSTOMER INFORMATION", fg="#ffe9a1", bg=header_bg)
         self.label.pack(pady=20)
 
-        # Name Entry
-        self.name_label = Label(left, font=('Times', 20, 'bold'), text="Name", fg="#ffe9a1", bg=old_money_bg, width=15)
-        self.name_label.grid(row=0, column=0, padx=10, pady=10)
+        # Name and Room No Entries
+        self.name_label = Label(middle, font=('Times', 20, 'bold'), text="Name", fg="#ffe9a1", bg=old_money_bg, width=15, relief="groove", bd=1, highlightthickness=2, highlightbackground="#725700")
+        self.name_label.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 
-        self.name_customer_entry = Text(left, height=20, width=40, font=('Times', 16), bg="#FFFFFF", fg="#000000")
-        self.name_customer_entry.grid(row=1, column=0, padx=10, pady=10)
+        self.room_no_label = Label(middle, font=('Times', 20, 'bold'), text="Room Number", fg="#ffe9a1", bg=old_money_bg, width=15, relief="groove", bd=1, highlightthickness=2, highlightbackground="#725700")
+        self.room_no_label.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
 
-        # Room No Entry
-        self.room_no_label = Label(right, font=('Times', 20, 'bold'), text="Room Number", fg="#ffe9a1", bg=old_money_bg, width=15)
-        self.room_no_label.grid(row=0, column=0, padx=10, pady=10)
+        self.name_customer_entry = Text(middle, height=20, width=30, font=('Times', 16), bg="#FFFFFF", fg="#000000")
+        self.name_customer_entry.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
 
-        self.room_no_customer_entry = Text(right, height=20, width=40, font=('Times', 16), bg="#FFFFFF", fg="#000000")
-        self.room_no_customer_entry.grid(row=1, column=0, padx=10, pady=10)
-
-        # Home Button
-        self.home_button = Button(bottom, text="Back", font=('Times', 20, 'bold'), bg=button_bg, fg=button_fg, relief=RIDGE, height=2, width=15, command=self.go_back)
-        self.home_button.pack(side="left", padx=(20, 10), pady=20)
+        self.room_no_customer_entry = Text(middle, height=20, width=30, font=('Times', 16), bg="#FFFFFF", fg="#000000")
+        self.room_no_customer_entry.grid(row=1, column=1, padx=10, pady=10, sticky="nsew")
 
         # Display Button
-        self.display_button = Button(bottom, text="Display", font=('Times', 20, 'bold'), bg=button_bg, fg=button_fg, relief=RIDGE, height=2, width=15, command=self.display_info)
-        self.display_button.pack(side="left", padx=(10, 20), pady=20)
+        self.display_button = Button(middle, text="Display", font=('Times', 20, 'bold'), bg=button_bg, fg=button_fg, relief=RAISED, height=2, width=15, command=self.display_info)
+        self.display_button.grid(row=2, column=0, columnspan=2, padx=(10, 20), pady=20)
 
         # Check if Name and Room No are filled
         self.name_customer_entry.bind('<KeyRelease>', self.check_fields)
         self.room_no_customer_entry.bind('<KeyRelease>', self.check_fields)
+
+        # Center the content
+        self.root.grid_rowconfigure(0, weight=1)
+        self.root.grid_columnconfigure(0, weight=1)
+        middle.grid_rowconfigure(0, weight=1)
+        middle.grid_rowconfigure(1, weight=1)
+        middle.grid_columnconfigure(0, weight=1)
+        middle.grid_columnconfigure(1, weight=1)
 
     def check_fields(self, event=None):
         name_text = self.name_customer_entry.get("1.0", 'end-1c')
@@ -101,6 +101,15 @@ def customer_info_ui():
     root = tk.Tk()
     application = CustomerInfo(root)
     root.mainloop()
+
+
+
+
+
+
+
+
+
 
 
 
