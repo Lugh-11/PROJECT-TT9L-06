@@ -39,7 +39,15 @@ class GetInfo:
         conn = sqlite3.connect('Hotel.db')
         with conn:
             cursor = conn.cursor()
-            cursor.execute("CREATE TABLE IF NOT EXISTS Hotel (Fullname TEXT, Address TEXT, mobile_number TEXT, number_days TEXT, room_number NUMBER)")
+            cursor.execute('''CREATE TABLE IF NOT EXISTS Hotel (
+                                Fullname TEXT,
+                                Address TEXT,
+                                mobile_number TEXT,
+                                number_days TEXT,
+                                room_number INTEGER,
+                                room_type TEXT,
+                                guests INTEGER,
+                                hotel_view TEXT)''')
             cursor.execute("SELECT room_number FROM Hotel")
             room_numbers = [str(row[0]) for row in cursor.fetchall()]
 
@@ -62,37 +70,37 @@ class GetInfo:
             conn = sqlite3.connect('Hotel.db')
             with conn:
                 cursor = conn.cursor()
-            cursor.execute(
-                'CREATE TABLE IF NOT EXISTS Hotel (Fullname TEXT, room_number NUMBER)')
-            cursor.execute(
-                'CREATE TABLE IF NOT EXISTS Amount (ID INTEGER PRIMARY KEY AUTOINCREMENT, room_number NUMBER, amount_people NUMBER)')
+                cursor.execute('''CREATE TABLE IF NOT EXISTS Hotel (
+                                    Fullname TEXT,
+                                    Address TEXT,
+                                    mobile_number TEXT,
+                                    number_days TEXT,
+                                    room_number INTEGER,
+                                    room_type TEXT,
+                                    guests INTEGER,
+                                    hotel_view TEXT)''')
+        
             conn.commit()
             with conn:
-                cursor.execute("SELECT room_number FROM Hotel")
+                cursor.execute("SELECT * FROM Hotel WHERE room_number=?", (room_number1,))
                 ans = cursor.fetchall()
-                room = [str(i[0]) for i in ans]
-                if room_number1 in room:
-                    with conn:
-                        cursor.execute("SELECT * FROM Hotel WHERE room_number=?", (room_number1,))
-                        ans = cursor.fetchall()
-                        for i in ans:
-                            self.get_info_entry.insert(INSERT,
-                                                       'NAME: ' + str(i[0]) + '\nADDRESS: ' + str(
-                                                           i[1]) + '\nMOBILE NUMBER:  ' + str(
-                                                           i[2]) + '\nNUMBER OF DAYS: ' + str(
-                                                           i[3]) + '\nROOM NUMBER: ' + str(i[4]) + '\n')
-                else:
-                    self.get_info_entry.insert(INSERT, "\nPLEASE ENTER VALID ROOM NUMBER")
-
+            if ans:
+                for i in ans:
+                    self.get_info_entry.insert(INSERT,
+                                                'NAME: ' + str(i[0]) + '\nADDRESS: ' + str(
+                                                    i[1]) + '\nMOBILE NUMBER:  ' + str(
+                                                    i[2]) + '\nNUMBER OF DAYS: ' + str(
+                                                    i[3]) + '\nROOM NUMBER: ' + str(
+                                                    i[4]) + '\nROOM TYPE: ' + str(
+                                                    i[5]) + '\nGUESTS: ' + str(
+                                                    i[6]) + '\nHOTEL VIEW: ' + str(i[7]) + '\n')
+            else:
+                self.get_info_entry.insert(INSERT, "\nPLEASE ENTER VALID ROOM NUMBER")
         # create submit button
         self.submit_button = Button(button_frame, text="SUBMIT", font=('Times', 15), bg="#948363", relief=RIDGE, height=2,
                                     width=15, fg="#ffe9a1", anchor="center", command=get_info)
         self.submit_button.grid(row=8, column=2, padx=10, pady=10)
 
-        # create back button
-        self.back_button = Button(button_frame, text="BACK", font=('Times', 15), bg="#948363", relief=RIDGE, height=2,
-                                  width=15, fg="#ffe9a1", anchor="center", command=self.go_back)
-        self.back_button.grid(row=8, column=3, padx=10, pady=10)
 
     def go_back(self):
         self.root.destroy()
@@ -102,4 +110,3 @@ def get_info_ui():
     root = Tk()
     application = GetInfo(root)
     root.mainloop()
-
