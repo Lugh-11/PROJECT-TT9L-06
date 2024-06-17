@@ -152,11 +152,11 @@ class App:
         self.welcome_label = customtkinter.CTkLabel(self.customer_frame, font=self.font1, text=f'Welcome {username}', text_color='#fff', bg_color='#001220')
         self.welcome_label.place(x=280, y=20)
 
-    def open_admin_interface(self):
-        self.app.destroy()  # Close the current login window
-        root = Tk()  # Create a new root window for the admin interface
-        app = HotelAdmin(root)  # Instantiate the HotelAdmin class
-        root.mainloop()  # Start the main event loop
+    #def open_admin_interface(self):
+       # self.app.destroy()  # Close the current login window
+       # root = Tk()  # Create a new root window for the admin interface
+       # app = HotelAdmin(root)  # Instantiate the HotelAdmin class
+       # root.mainloop()  # Start the main event loop
 
 if __name__ == "__main__":
     root = customtkinter.CTk()

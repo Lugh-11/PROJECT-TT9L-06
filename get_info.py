@@ -101,10 +101,6 @@ class GetInfo:
                                     width=15, fg="#ffe9a1", anchor="center", command=get_info)
         self.submit_button.grid(row=8, column=2, padx=10, pady=10)
 
-        # create back button
-        self.back_button = Button(button_frame, text="BACK", font=('Times', 15), bg="#948363", relief=RIDGE, height=2,
-                                  width=15, fg="#ffe9a1", anchor="center", command=self.go_back)
-        self.back_button.grid(row=8, column=3, padx=10, pady=10)
 
     def go_back(self):
         self.root.destroy()
@@ -114,6 +110,7 @@ def get_info_ui():
     root = Tk()
     application = GetInfo(root)
     root.mainloop()
+
 
 
 
