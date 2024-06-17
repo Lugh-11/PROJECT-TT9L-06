@@ -18,26 +18,33 @@ class HotelAdmin:
         self.main_frame.pack(fill=BOTH, expand=True)
 
         # Title label with border
-        self.label = Label(self.main_frame, text="ADMIN 🛠", font=('Times', 50, 'bold'), fg="#725700", bg="#c9c1a7", bd=4, relief="groove")
+        self.label = Label(self.main_frame, text="ADMIN 🛠", font=('Times', 50, 'bold'), fg="#725700", bg="#c9c1a7", bd=10, relief="ridge", padx=20, pady=5)
         self.label.pack(pady=50)
 
         # Button styles
         self.button_style = ttk.Style()
-        self.button_style.configure('Admin.TButton', font=('Times', 20), background="#948363", foreground="#ffe9a1")
+        self.button_style.configure('Admin.TButton', font=('Times', 20), background="#948363", foreground="#B4955F")
+
+        # Define button width based on the longest text
+        button_width = 25  # Approximate width that fits the longest text comfortably
 
         # Customer Information Button
         self.room_info_button = ttk.Button(self.main_frame, text="CUSTOMER INFORMATION", style='Admin.TButton',
                                            command=self.show_customer_info)
         self.room_info_button.pack(pady=30)
+        self.room_info_button.config(width=button_width)
 
         # List of Customers Button
         self.get_info_button = ttk.Button(self.main_frame, text="LIST OF CUSTOMERS", style='Admin.TButton',
                                           command=self.show_customer_list)
         self.get_info_button.pack(pady=30)
+        self.get_info_button.config(width=button_width)
 
+        # Room Availability Button
         self.room_availability_button = ttk.Button(self.main_frame, text="ROOM AVAILABILITY", style='Admin.TButton',
                                                    command=self.show_room_availability)
         self.room_availability_button.pack(pady=30)
+        self.room_availability_button.config(width=button_width)
 
         # Separator
         self.separator = ttk.Separator(self.main_frame, orient=HORIZONTAL)
@@ -46,6 +53,7 @@ class HotelAdmin:
         # Exit Button
         self.exit_button = ttk.Button(self.main_frame, text="EXIT", style='Admin.TButton', command=self.exit_app)
         self.exit_button.pack(pady=30)
+        self.exit_button.config(width=button_width)
 
     def show_customer_info(self):
         get_info.get_info_ui() 
