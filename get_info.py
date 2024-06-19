@@ -10,7 +10,6 @@ class GetInfo:
         self.root.title("CUSTOMER INFORMATION")
         self.root.geometry(
             "{0}x{1}+0+0".format(self.root.winfo_screenwidth() - pad, self.root.winfo_screenheight() - pad))
-
         self.root.configure(bg="#c9c1a7")
 
         top = Frame(self.root, bg="#c9c1a7")
@@ -110,6 +109,7 @@ def get_info_ui():
     root = Tk()
     application = GetInfo(root)
     root.mainloop()
+
 
 
 

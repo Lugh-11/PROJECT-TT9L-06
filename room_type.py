@@ -1,7 +1,6 @@
 import sqlite3
 from tkinter import *
-from PIL import Image, ImageTk  # Import Pillow for image handling
-import main
+from PIL import Image, ImageTk
 
 class RoomType:
 
@@ -12,96 +11,134 @@ class RoomType:
         self.root.geometry(
             "{0}x{1}+0+0".format(self.root.winfo_screenwidth() - pad, self.root.winfo_screenheight() - pad))
         self.root.configure(bg="#c9c1a7")
+        
         top = Frame(self.root, bg="#c9c1a7")
         top.pack(side="top", fill="x")
+
+        middle = Frame(self.root, bg="#c9c1a7")
+        middle.pack(expand=True)
 
         bottom = Frame(self.root, bg="#c9c1a7")
         bottom.pack(side="bottom", fill="x")
 
-        left = Frame(self.root, bg="#c9c1a7")
-        left.pack(side="left", fill="both", expand=True, padx=20, pady=20)
-
-        right = Frame(self.root, bg="#c9c1a7")
-        right.pack(side="right", fill="both", expand=True)
-
-
         self.label = Label(top, font=('Times New Roman', 50, 'bold'), text="ROOM TYPE", fg="#725700", anchor="center", bg="#c9c1a7")
         self.label.pack(pady=10)
 
-        # room type information with image paths
+        # Room type information
         self.room_types = [
-            ("Single Room", "Room assigned to one person. May have one or two beds.", "single_room.jpg"),
-            ("Double Room", "Room assigned to two people. May have one or more beds.", "double_room.jpg"),
-            ("Suite", "A set of rooms designated for a particular purpose such as a bedroom, living room, and kitchen.", "suite.jpg"),
-            ("Family Room", "A room with several beds, often designed for family accommodation.", "family_room.jpg")
+            "Single Room",
+            "Double Room",
+            "Suite",
+            "Family Room"
         ]
 
-        self.selected_room_type = StringVar()
-        self.selected_room_type.set(self.room_types[0][0]) 
-
-        self.image_refs = []  # Keep a reference to the images to prevent garbage collection
-
-        self.create_room_type_selection(left)
-        self.submit_button = Button(bottom, text="SUBMIT", font=('Times New Roman', 20, 'bold'), bg="#725700", relief=RAISED, height=2, width=20, fg="#ffe9a1", anchor="center", command=self.submit_selection)
-        self.submit_button.pack(pady=10)
+        self.create_room_type_selection(middle)
 
         self.back_button = Button(bottom, text="BACK", font=('Times New Roman', 20, 'bold'), bg="#725700", relief=RAISED, height=2, width=20, fg="#ffe9a1", anchor="center", command=self.go_back)
         self.back_button.pack(pady=10)
 
-        self.remove_room_type_table()  # Remove room type table
-
     def create_room_type_selection(self, parent):
-        for idx, (room_type, description, image_path) in enumerate(self.room_types):
+        for room_type in self.room_types:
             frame = Frame(parent, bg="#c9c1a7", relief="solid", bd=2)
             frame.pack(fill="x", padx=10, pady=5)
+            
+            # Create a button for the room type
+            button = Button(frame, font=('Times New Roman', 16), text=room_type, fg="#725700", anchor="center", bg="#c9c1a7", padx=10, pady=5, width=20, command=lambda rt=room_type: self.go_to_room_details(rt))
+            button.pack(fill="both", expand=True)
 
-            try:
-                # Load and resize the image
-                image = Image.open(image_path)
-                image = image.resize((100, 100), Image.ANTIALIAS)
-                photo = ImageTk.PhotoImage(image)
+    def go_to_room_details(self, room_type):
+        if room_type == "Single Room":
+            self.display_single_room_image()
+        else:
+            self.root.destroy()
+            room_details_ui(room_type)
 
-                # Add the image reference to the list to prevent garbage collection
-                self.image_refs.append(photo)
-                
-                # using radio_button to make options that can be selected
-                radio_button = Radiobutton(frame, text=room_type, variable=self.selected_room_type, value=room_type, font=('Times New Roman', 20, 'bold'), bg="#c9c1a7", fg="#725700", anchor="w", padx=10, pady=5, selectcolor="white")
-                radio_button.pack(side="left")
-
-                label_desc = Label(frame, font=('Times New Roman', 16), text=description, fg="#725700", anchor="w", bg="#c9c1a7", padx=10, pady=5)
-                label_desc.pack(side="right")
-
-                # Add the image to the frame
-                image_label = Label(frame, image=photo, bg="#c9c1a7")
-                image_label.image = photo  # Keep a reference to avoid garbage collection
-                image_label.pack(side="right", padx=10)
-            except Exception as e:
-                print(f"Error loading image {image_path}: {e}")
-
-    def remove_room_type_table(self):
-        conn = sqlite3.connect('Hotel.db')
-        with conn:
-            cursor = conn.cursor()
-            cursor.execute('DROP TABLE IF EXISTS RoomType')
-            conn.commit()
-
-    def submit_selection(self):
-        selected_room = self.selected_room_type.get()
-        print(f"Selected Room Type: {selected_room}")
-        self.save_room_type(selected_room)
-
-    def save_room_type(self, room_type):
-        fullname = "" 
-        room_number = 101 
-        conn = sqlite3.connect('Hotel.db')
-        with conn:
-            cursor = conn.cursor()
-            cursor.execute('INSERT INTO RoomType (Fullname, room_number, room_type) VALUES (?, ?, ?)', (fullname, room_number, room_type))
-            conn.commit()
+    def display_single_room_image(self):
+        self.root.destroy()
+        single_room_ui()
 
     def go_back(self):
         self.root.destroy()
-        main.home_ui()
+
+def single_room_ui():
+    root = Tk()
+    app = SingleRoom(root)
+    root.mainloop()
+
+class SingleRoom:
+
+    def __init__(self, root):
+        self.root = root
+        pad = 3
+        self.root.title("Single Room")
+        self.root.geometry(
+            "{0}x{1}+0+0".format(self.root.winfo_screenwidth() - pad, self.root.winfo_screenheight() - pad))
+        self.root.configure(bg="#c9c1a7")
+        
+        top = Frame(self.root, bg="#c9c1a7")
+        top.pack(side="top", fill="x")
+
+        middle = Frame(self.root, bg="#c9c1a7")
+        middle.pack(expand=True)
+
+        bottom = Frame(self.root, bg="#c9c1a7")
+        bottom.pack(side="bottom", fill="x")
+
+        self.label = Label(top, font=('Times New Roman', 50, 'bold'), text="Single Room", fg="#725700", anchor="center", bg="#c9c1a7")
+        self.label.pack(pady=10)
+
+        # Load and display the image
+        image_path = r"C:\Users\MEGAT\Desktop\MegatBranch\PROJECT-TT9L-06\Hotel Reservation System\single_room.jpg"
+        self.image = Image.open(image_path)
+        self.photo = ImageTk.PhotoImage(self.image)
+
+        self.image_label = Label(middle, image=self.photo, bg="#c9c1a7")
+        self.image_label.image = self.photo  # Keep a reference to avoid garbage collection
+        self.image_label.pack(pady=20)
+
+        self.back_button = Button(bottom, text="BACK", font=('Times New Roman', 20, 'bold'), bg="#725700", relief=RAISED, height=2, width=20, fg="#ffe9a1", anchor="center", command=self.go_back)
+        self.back_button.pack(pady=10)
+
+    def go_back(self):
+        self.root.destroy()
+        room_type_ui()
+
+def room_details_ui(room_type):
+    root = Tk()
+    app = RoomDetails(root, room_type)
+    root.mainloop()
+
+class RoomDetails:
+
+    def __init__(self, root, room_type):
+        self.root = root
+        pad = 3
+        self.root.title(f"{room_type} Details")
+        self.root.geometry(
+            "{0}x{1}+0+0".format(self.root.winfo_screenwidth() - pad, self.root.winfo_screenheight() - pad))
+        self.root.configure(bg="#c9c1a7")
+        
+        top = Frame(self.root, bg="#c9c1a7")
+        top.pack(side="top", fill="x")
+
+        middle = Frame(self.root, bg="#c9c1a7")
+        middle.pack(expand=True)
+
+        bottom = Frame(self.root, bg="#c9c1a7")
+        bottom.pack(side="bottom", fill="x")
+
+        self.label = Label(top, font=('Times New Roman', 50, 'bold'), text=f"{room_type} Details", fg="#725700", anchor="center", bg="#c9c1a7")
+        self.label.pack(pady=10)
+
+        # Add your room details content here
+        # This can include images, descriptions, prices, etc.
+
+        self.back_button = Button(bottom, text="BACK", font=('Times New Roman', 20, 'bold'), bg="#725700", relief=RAISED, height=2, width=20, fg="#ffe9a1", anchor="center", command=self.go_back)
+        self.back_button.pack(pady=10)
+
+    def go_back(self):
+        self.root.destroy()
+        room_type_ui()
 
 def room_type_ui():
     root = Tk()
@@ -109,8 +146,7 @@ def room_type_ui():
     root.mainloop()
 
 
-
-
+room_type_ui()
 
 
 

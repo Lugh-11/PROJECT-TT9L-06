@@ -25,8 +25,8 @@ class HotelAdmin:
         self.button_style = ttk.Style()
         self.button_style.configure('Admin.TButton', font=('Times', 20), background="#948363", foreground="#B4955F")
 
-        # Define button width based on the longest text
-        button_width = 25  # Approximate width that fits the longest text comfortably
+        
+        button_width = 25  
 
         # Customer Information Button
         self.room_info_button = ttk.Button(self.main_frame, text="CUSTOMER INFORMATION", style='Admin.TButton',

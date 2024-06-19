@@ -28,9 +28,6 @@ class RoomAvailabilityPage:
         self.refresh_button = ttk.Button(self.main_frame, text="REFRESH AVAILABILITY", command=self.update_availability)
         self.refresh_button.pack(pady=10)
 
-        # Back Button
-        self.back_button = ttk.Button(self.main_frame, text="BACK", command=self.back_to_main)
-        self.back_button.pack(pady=10)
 
         self.update_availability()
 
@@ -66,12 +63,6 @@ class RoomAvailabilityPage:
             if col_num == 10:
                 col_num = 0
                 row_num += 1
-
-    def back_to_main(self):
-        self.root.withdraw()  # Hide the current window
-        admin_root = Tk()  # Create a new window for the admin interface
-        admin_interface = main.AdminInterface(admin_root)  # Create an instance of AdminInterface
-        admin_root.mainloop()
 
 def room_availability_ui():
     availability_root = Tk()
