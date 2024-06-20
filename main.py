@@ -1,6 +1,5 @@
 from tkinter import *
 import pygame
-from tkinter.font import Font
 import check_in_ui
 import check_out
 import get_info
@@ -8,6 +7,8 @@ import customer_info
 import os
 import room_type  # Ensure this is imported correctly
 from PIL import Image, ImageTk
+import login
+import feedback
 
 # Define the base directory path
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -25,20 +26,14 @@ def play_music():
 class Hotel:
     def __init__(self, root):
         self.root = root
-        
-        # Set padding
         pad = 3
-        
-        # Set the window title
         self.root.title("K I N G S T O N   H O T E L")
-        
-        # Set the window geometry
         self.root.geometry(
             "{0}x{1}+0+0".format(self.root.winfo_screenwidth() - pad, self.root.winfo_screenheight() - pad))
-        
+
         # Play the music
         play_music()
-        
+
         # Set the background color
         self.root.configure(bg="#c9c1a7")
 
@@ -72,33 +67,38 @@ class Hotel:
                                        height=2, width=50, fg="#ffe9a1", anchor="center", command=room_type.room_type_ui)
         self.room_type_button.grid(row=2, column=2, padx=10, pady=10)
 
+        self.room_type_button = Button(bottom, text="FEEDBACK", font=('Times', 20), bg="#948363", relief=RIDGE,
+                                       height=2, width=50, fg="#ffe9a1", anchor="center", command=feedback.feedback_ui)
+        self.room_type_button.grid(row=3, column=2, padx=10, pady=10)
+
         # Create an exit button
         self.exit_button = Button(bottom, text="EXIT", font=('Times', 20), bg="#948363", relief=RIDGE, height=2, width=50,
                                   fg="#ffe9a1",
                                   anchor="center", command=quit)
-        self.exit_button.grid(row=3, column=2, padx=10, pady=10)
+        self.exit_button.grid(row=4, column=2, padx=10, pady=10)
 
         # Create a customer information button (initially disabled)
         self.room_info_button = Button(bottom, text="CUSTOMER INFORMATION 🔒", font=('Times', 20), bg="#948363", relief=RIDGE,
                                        height=2,
                                        width=50, fg="#ffe9a1", anchor="center",
                                        command=get_info.get_info_ui, state=DISABLED)  # Locked
-        self.room_info_button.grid(row=4, column=2, padx=10, pady=10)
+        self.room_info_button.grid(row=5, column=2, padx=10, pady=10)
 
         # Create a list of customers button (initially disabled)
         self.get_info_button = Button(bottom, text="LIST OF CUSTOMER 🔒", font=('Times', 20), bg="#948363",
                                       relief=RIDGE,
                                       height=2, width=50, fg="#ffe9a1", anchor="center",
                                       command=customer_info.customer_info_ui, state=DISABLED)  # Locked
-        self.get_info_button.grid(row=5, column=2, padx=10, pady=10)
+        self.get_info_button.grid(row=6, column=2, padx=10, pady=10)
 
-def home_ui():
+def start_main():
     root = Tk()
     application = Hotel(root)
     root.mainloop()
 
 if __name__ == '__main__':
-    home_ui()
+    start_main()
+
 
 
 

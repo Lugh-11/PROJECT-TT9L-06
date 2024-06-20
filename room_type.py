@@ -2,6 +2,9 @@ import sqlite3
 from tkinter import *
 from PIL import Image, ImageTk
 
+# Global variable to store the single room image
+single_room_image = None
+
 class RoomType:
 
     def __init__(self, root):
@@ -54,7 +57,9 @@ class RoomType:
             room_details_ui(room_type)
 
     def display_single_room_image(self):
+        global single_room_image
         self.root.destroy()
+        single_room_image = Image.open(r"C:\Users\MEGAT\Desktop\MegatBranch\PROJECT-TT9L-06\Hotel Reservation System\single_room.jpg")
         single_room_ui()
 
     def go_back(self):
@@ -88,9 +93,8 @@ class SingleRoom:
         self.label.pack(pady=10)
 
         # Load and display the image
-        image_path = r"C:\Users\MEGAT\Desktop\MegatBranch\PROJECT-TT9L-06\Hotel Reservation System\single_room.jpg"
-        self.image = Image.open(image_path)
-        self.photo = ImageTk.PhotoImage(self.image)
+        global single_room_image
+        self.photo = ImageTk.PhotoImage(single_room_image)
 
         self.image_label = Label(middle, image=self.photo, bg="#c9c1a7")
         self.image_label.image = self.photo  # Keep a reference to avoid garbage collection
@@ -146,7 +150,7 @@ def room_type_ui():
     root.mainloop()
 
 
-room_type_ui()
+
 
 
 
