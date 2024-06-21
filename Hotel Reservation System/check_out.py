@@ -1,8 +1,9 @@
 import sqlite3
 from tkinter import *
-from tkinter.ttk import Separator, Combobox
+from tkinter.ttk import Separator
 from tkinter import messagebox
 import main
+
 
 class CheckOut:
     def __init__(self, root):
@@ -34,21 +35,14 @@ class CheckOut:
                            bg="#725700", borderwidth=5, relief="groove", padx=20, pady=10)
         self.label.grid(row=0, column=0, columnspan=2, pady=20, sticky="n")
 
-        # Room Number Drop-down
-        self.room_no_label = Label(main_frame, font=('Times', 20, 'bold'), text="SELECT ROOM NUMBER:", fg="#ffe9a1",
+        # Room Number Entry
+        self.room_no_label = Label(main_frame, font=('Times', 20, 'bold'), text="ENTER THE ROOM NUMBER:", fg="#ffe9a1",
                                    anchor="center", bg="#948363")
         self.room_no_label.grid(row=1, column=0, pady=10, sticky="e")
 
-        # Fetch existing room numbers from the database
-        conn = sqlite3.connect('Hotel.db')
-        with conn:
-            cursor = conn.cursor()
-        cursor.execute("SELECT room_number FROM Hotel")
-        room_numbers = [i[0] for i in cursor.fetchall()]
-
-        self.room_var = StringVar()
-        self.room_no_dropdown = Combobox(main_frame, textvariable=self.room_var, values=room_numbers, font=('Times', 20))
-        self.room_no_dropdown.grid(row=1, column=1, pady=10, sticky="w")
+        self.room_var = IntVar()
+        self.room_no_entry = Entry(main_frame, width=10, textvariable=self.room_var, font=('Times', 20))
+        self.room_no_entry.grid(row=1, column=1, pady=10, sticky="w")
 
         # Separator
         separator = Separator(main_frame, orient='horizontal')
@@ -77,7 +71,7 @@ class CheckOut:
         self.home_button.grid(row=0, column=1, padx=10)
 
     def check_out(self):
-        room_number1 = int(self.room_var.get())
+        room_number1 = int(self.room_no_entry.get())
         conn = sqlite3.connect('Hotel.db')
         with conn:
             cursor = conn.cursor()
@@ -107,12 +101,6 @@ class CheckOut:
     def return_to_main_page(self):
         self.root.destroy()
         main.home_ui()
-
-def check_out_ui():
-    root = Tk()
-    application = CheckOut(root)
-    root.mainloop()
-
 
 def check_out_ui():
     root = Tk()
