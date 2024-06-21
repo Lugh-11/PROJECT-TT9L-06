@@ -1,0 +1,52 @@
+from tkinter import *
+import sqlite3
+import main
+
+def room_services_ui():
+    room_services_window = Toplevel()
+    room_services_window.title("Room Services")
+    room_services_window.geometry("600x400")
+    
+    label = Label(room_services_window, text="Room Services", font=('Times', 30))
+    label.pack(pady=20)
+    
+    services = ["Room Cleaning", "Food Delivery", "Spa Booking", "Laundry Service"]
+
+    room_number_label = Label(room_services_window, text="Room Number:", font=('Times', 20))
+    room_number_label.pack(pady=10)
+    room_number_entry = Entry(room_services_window, font=('Times', 20))
+    room_number_entry.pack(pady=10)
+
+    selected_service = StringVar(room_services_window)
+    selected_service.set(services[0])  # default value
+
+    service_menu = OptionMenu(room_services_window, selected_service, *services)
+    service_menu.config(font=('Times', 20))
+    service_menu.pack(pady=10)
+
+    def request_service():
+        room_number = room_number_entry.get()
+        service = selected_service.get()
+        status = "Pending"
+
+        conn = sqlite3.connect('Hotel.db')
+        cursor = conn.cursor()
+        cursor.execute('''
+        INSERT INTO RoomServices (room_number, service, status)
+        VALUES (?, ?, ?)
+        ''', (room_number, service, status))
+        conn.commit()
+        conn.close()
+        Label(room_services_window, text="Service Requested Successfully!", font=('Times', 20), fg="green").pack(pady=10)
+
+    request_button = Button(room_services_window, text="Request Service", font=('Times', 20), command=request_service)
+    request_button.pack(pady=20)
+    
+    close_button = Button(room_services_window, text="Close", font=('Times', 20), command=room_services_window.destroy)
+    close_button.pack(pady=20)
+
+    
+    def return_to_main_page(self):
+        self.root.destroy()  # Close the current window
+        self.main_window.deiconify()
+

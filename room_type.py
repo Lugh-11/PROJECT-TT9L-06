@@ -152,5 +152,3 @@ def room_type_ui():
 
 
 
-
-
