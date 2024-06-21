@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox
 import os
+import sqlite3
+import bcrypt
 
 class LoginApp:
     def __init__(self, root):
@@ -25,6 +27,17 @@ class LoginApp:
 
         # Show login frame by default
         self.show_login_frame()
+
+        # Test Database
+        self.conn = sqlite3.connect('users.db')
+        self.cursor = self.conn.cursor()
+
+        self.cursor.execute(
+            '''CREATE TABLE IF NOT EXISTS users(
+                username TEXT NOT NULL,
+                password TEXT NOT NULL
+            )'''
+        )
 
     def initialize_login_widgets(self):
         self.login_label = tk.Label(self.login_frame, text="Login", font=('Times', 24, 'bold'), bg="#948363",
@@ -97,35 +110,50 @@ class LoginApp:
         password = self.password_entry.get()
         user_type = self.user_type_var.get()
 
-        # You can replace this with your actual database query to check credentials
-        if user_type == "User":
-            if username == "user" and password == "user":
-                messagebox.showinfo("Login Successful", "Welcome, User!")
-                self.navigate_to_main()
-            else:
-                messagebox.showerror("Login Failed", "Invalid username or password for User")
-        elif user_type == "Admin":
-            if username == "admin" and password == "admin":
+        if user_type == "Admin":
+            if username == "admin" and password == "123":
                 messagebox.showinfo("Login Successful", "Welcome, Admin!")
                 self.navigate_to_admin()
             else:
                 messagebox.showerror("Login Failed", "Invalid username or password for Admin")
         else:
-            messagebox.showerror("Login Failed", "Please select User or Admin")
+            if username != '' and password != '':
+                self.cursor.execute('SELECT password FROM users WHERE username=?', (username,))
+                result = self.cursor.fetchone()
+                if result:
+                    stored_password = result[0]
+                    if bcrypt.checkpw(password.encode('utf-8'), stored_password.encode('utf-8')):
+                        messagebox.showinfo('Success', 'Logged in successfully.')
+                        self.navigate_to_main()
+                    else:
+                        messagebox.showerror("Login Failed", "Invalid username or password for User")
+                else:
+                    messagebox.showerror("Login Failed", "Invalid username or password for User")
+            else:
+                messagebox.showerror("Login Failed", "Please fill all the fields")
 
     def signup(self):
         new_username = self.new_username_entry.get()
         new_password = self.new_password_entry.get()
         confirm_password = self.confirm_password_entry.get()
 
-        if new_password != confirm_password:
-            messagebox.showerror("Sign Up Failed", "Passwords do not match")
-            return
-
-        # Here you should add code to insert the new user into the database
-        # For demonstration, we just show a message
-        messagebox.showinfo("Sign Up Successful", f"Account created for {new_username}")
-        self.show_login_frame()
+        if new_username and new_password and confirm_password:
+            if new_password == confirm_password:
+                self.cursor.execute('SELECT username FROM users WHERE username=?', (new_username,))
+                if self.cursor.fetchone() is not None:
+                    messagebox.showerror('Error', 'Username already exists')
+                else:
+                    encoded_password = new_password.encode('utf-8')
+                    hashed_password = bcrypt.hashpw(encoded_password, bcrypt.gensalt())
+                    self.cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)',
+                                        (new_username, hashed_password.decode('utf-8')))
+                    self.conn.commit()
+                    messagebox.showinfo("Sign Up Successful", f"Account created for {new_username}")
+                    self.show_login_frame()
+            else:
+                messagebox.showerror("Sign Up Failed", "Passwords do not match")
+        else:
+            messagebox.showerror('Error', 'Please fill all the fields')
 
     def navigate_to_main(self):
         self.root.destroy()
