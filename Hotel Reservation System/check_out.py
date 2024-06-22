@@ -4,7 +4,6 @@ from tkinter.ttk import Separator
 from tkinter import messagebox
 import main
 
-
 class CheckOut:
     def __init__(self, root):
         self.root = root
@@ -72,27 +71,27 @@ class CheckOut:
 
     def check_out(self):
         room_number1 = int(self.room_no_entry.get())
-        conn = sqlite3.connect('Hotel.db')
+        conn = sqlite3.connect('NewHotel.db')
         with conn:
             cursor = conn.cursor()
         cursor.execute(
-            'CREATE TABLE IF NOT EXISTS Hotel (Fullname TEXT, Address TEXT, mobile_number TEXT, number_days TEXT,'
-            ' room_number NUMBER, room_type TEXT, number_of_guests NUMBER)')
+            'CREATE TABLE IF NOT EXISTS NewHotelTable (Fullname TEXT, Address TEXT, mobile_number TEXT, number_days TEXT,'
+            ' room_number NUMBER, room_type TEXT, number_of_guests NUMBER, hotel_view TEXT)')
         conn.commit()
         with conn:
-            cursor.execute("SELECT room_number FROM Hotel")
+            cursor.execute("SELECT room_number FROM NewHotelTable")
             ans = cursor.fetchall()
             room = [i[0] for i in ans]
             if room_number1 in room:
                 with conn:
-                    cursor.execute("SELECT Fullname, room_number FROM Hotel")
+                    cursor.execute("SELECT Fullname, room_number FROM NewHotelTable")
                     ans = cursor.fetchall()
                     for i in ans:
                         if room_number1 == int(i[1]):
                             self.get_info_entry.insert(INSERT,
                                                        '\n' + str(i[0]) + ' has checked out from room ' + str(i[1]) + '\n')
                             with conn:
-                                cursor.execute("""DELETE FROM Hotel WHERE room_number = ?""", [room_number1])
+                                cursor.execute("""DELETE FROM NewHotelTable WHERE room_number = ?""", [room_number1])
                             messagebox.showinfo("Success", "Check-out Successful!")
                             self.return_to_main_page()
             else:
@@ -106,3 +105,4 @@ def check_out_ui():
     root = Tk()
     application = CheckOut(root)
     root.mainloop()
+
