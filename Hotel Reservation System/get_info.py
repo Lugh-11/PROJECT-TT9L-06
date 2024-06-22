@@ -25,21 +25,21 @@ class GetInfo:
         button_frame = Frame(self.root, bg="#c9c1a7")
         button_frame.pack(side="top")
 
-        # display message
+        # Display message
         self.label = Label(top, font=('Times', 50, 'bold'), text="K I N G S T O N  H O T E L", fg="#725700",
                            anchor="center", bg="#c9c1a7")
         self.label.grid(row=0, column=3, padx=10, pady=10)
 
-        # room no label
+        # Room number label
         self.room_no_label = Label(bottom, font=('Times', 20, 'bold'), text="ENTER ROOM NUMBER :", fg="#ffe9a1",
                                    anchor="center", bg="#948363")
         self.room_no_label.grid(row=2, column=2, padx=10, pady=10)
 
         # Fetch room numbers from the database
-        conn = sqlite3.connect('Hotel.db')
+        conn = sqlite3.connect('NewHotel.db')
         with conn:
             cursor = conn.cursor()
-            cursor.execute('''CREATE TABLE IF NOT EXISTS Hotel (
+            cursor.execute('''CREATE TABLE IF NOT EXISTS NewHotelTable (
                                 Fullname TEXT,
                                 Address TEXT,
                                 mobile_number TEXT,
@@ -48,7 +48,7 @@ class GetInfo:
                                 room_type TEXT,
                                 guests INTEGER,
                                 hotel_view TEXT)''')
-            cursor.execute("SELECT room_number FROM Hotel")
+            cursor.execute("SELECT room_number FROM NewHotelTable")
             room_numbers = [str(row[0]) for row in cursor.fetchall()]
 
         self.room_number = StringVar()
@@ -67,10 +67,10 @@ class GetInfo:
 
         def get_info():
             room_number1 = self.room_no_combobox.get()
-            conn = sqlite3.connect('Hotel.db')
+            conn = sqlite3.connect('NewHotel.db')
             with conn:
                 cursor = conn.cursor()
-                cursor.execute('''CREATE TABLE IF NOT EXISTS Hotel (
+                cursor.execute('''CREATE TABLE IF NOT EXISTS NewHotelTable (
                                     Fullname TEXT,
                                     Address TEXT,
                                     mobile_number TEXT,
@@ -82,25 +82,25 @@ class GetInfo:
         
             conn.commit()
             with conn:
-                cursor.execute("SELECT * FROM Hotel WHERE room_number=?", (room_number1,))
+                cursor.execute("SELECT * FROM NewHotelTable WHERE room_number=?", (room_number1,))
                 ans = cursor.fetchall()
             if ans:
                 for i in ans:
                     self.get_info_entry.insert(INSERT,
-                                                'NAME: ' + str(i[0]) + '\nADDRESS: ' + str(
-                                                    i[1]) + '\nMOBILE NUMBER:  ' + str(
-                                                    i[2]) + '\nNUMBER OF DAYS: ' + str(
-                                                    i[3]) + '\nROOM NUMBER: ' + str(
-                                                    i[4]) + '\nROOM TYPE: ' + str(
-                                                    i[5]) + '\nGUESTS: ' + str(
-                                                    i[6]) + '\nHOTEL VIEW: ' + str(i[7]) + '\n')
+                                               'NAME: ' + str(i[0]) + '\nADDRESS: ' + str(
+                                                   i[1]) + '\nMOBILE NUMBER:  ' + str(
+                                                   i[2]) + '\nNUMBER OF DAYS: ' + str(
+                                                   i[3]) + '\nROOM NUMBER: ' + str(
+                                                   i[4]) + '\nROOM TYPE: ' + str(
+                                                   i[5]) + '\nGUESTS: ' + str(
+                                                   i[6]) + '\nHOTEL VIEW: ' + str(i[7]) + '\n')
             else:
                 self.get_info_entry.insert(INSERT, "\nPLEASE ENTER VALID ROOM NUMBER")
-        # create submit button
+        
+        # Create submit button
         self.submit_button = Button(button_frame, text="SUBMIT", font=('Times', 15), bg="#948363", relief=RIDGE, height=2,
                                     width=15, fg="#ffe9a1", anchor="center", command=get_info)
         self.submit_button.grid(row=8, column=2, padx=10, pady=10)
-
 
     def go_back(self):
         self.root.destroy()
