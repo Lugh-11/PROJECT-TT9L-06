@@ -71,20 +71,28 @@ class CustomerInfo:
             self.display_button.config(state=DISABLED)
 
     def display_info(self):
-        conn = sqlite3.connect('Hotel.db')
+        conn = sqlite3.connect('NewHotel.db')
         try:
             with conn:
                 cursor = conn.cursor()
-                cursor.execute('CREATE TABLE IF NOT EXISTS Hotel (Fullname TEXT, Address TEXT, mobile_number TEXT, number_days TEXT, room_number INTEGER)')
+                cursor.execute('''CREATE TABLE IF NOT EXISTS NewHotelTable (
+                                    Fullname TEXT,
+                                    Address TEXT,
+                                    mobile_number TEXT,
+                                    number_days TEXT,
+                                    room_number INTEGER,
+                                    room_type TEXT,
+                                    guests INTEGER,
+                                    hotel_view TEXT)''')
                 conn.commit()
 
-                cursor.execute("SELECT Fullname FROM Hotel")
+                cursor.execute("SELECT Fullname FROM NewHotelTable")
                 names = cursor.fetchall()
                 self.name_customer_entry.delete(1.0, tk.END)
                 for name in names:
                     self.name_customer_entry.insert(tk.INSERT, name[0] + '\n')
 
-                cursor.execute("SELECT room_number FROM Hotel")
+                cursor.execute("SELECT room_number FROM NewHotelTable")
                 rooms = cursor.fetchall()
                 self.room_no_customer_entry.delete(1.0, tk.END)
                 for room in rooms:
