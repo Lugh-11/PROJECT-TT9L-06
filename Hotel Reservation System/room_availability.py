@@ -39,9 +39,9 @@ class RoomAvailabilityPage:
         for widget in self.results_frame.winfo_children():
             widget.destroy()
 
-        conn = sqlite3.connect('Hotel.db')
+        conn = sqlite3.connect('NewHotel.db')
         cursor = conn.cursor()
-        cursor.execute('''SELECT room_number FROM Hotel''')
+        cursor.execute('''SELECT room_number FROM NewHotelTable''')
         occupied_rooms = [row[0] for row in cursor.fetchall()]
         conn.close()
 
