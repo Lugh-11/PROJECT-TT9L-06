@@ -16,9 +16,9 @@ class CheckIN:
 
         try:
             # Database connection
-            self.conn = sqlite3.connect('Hotel.db')
+            self.conn = sqlite3.connect('NewHotel.db')
             cursor = self.conn.cursor()
-            cursor.execute('''CREATE TABLE IF NOT EXISTS Hotel (
+            cursor.execute('''CREATE TABLE IF NOT EXISTS NewHotelTable (
                                 Fullname TEXT,
                                 Address TEXT,
                                 mobile_number TEXT,
@@ -127,7 +127,7 @@ class CheckIN:
         try:
             # Add data to the SQLite database
             cursor = self.conn.cursor()
-            cursor.execute('''INSERT INTO Hotel (Fullname, Address, mobile_number, number_days, room_number, room_type, hotel_view, guests) 
+            cursor.execute('''INSERT INTO NewHotelTable (Fullname, Address, mobile_number, number_days, room_number, room_type, hotel_view, guests) 
                             VALUES (?, ?, ?, ?, ?, ?, ?, ?)''', (name, address, mobile, days, self.room_number, room_type, hotel_view, guests))
             self.conn.commit()
 
@@ -163,3 +163,7 @@ def check_in_ui_fun():
     main_window.title("Main Page")
     application = CheckIN(root, main_window)
     root.mainloop()
+
+if __name__ == "__main__":
+    check_in_ui_fun()
+ 
